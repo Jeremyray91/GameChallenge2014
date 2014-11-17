@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Bot : MonoBehaviour {
-    public float m_Speed = 10.0f;
+    public float m_Speed = 18.0f;
 
     private bool m_IsDead = false;
     private GameObject m_MainCamera;
@@ -17,11 +17,15 @@ public class Bot : MonoBehaviour {
 
     private Vector3 m_TargetPosition;
 
+    private GameObject m_Building = null;
+
+
     // Use this for initialization
     void Start() {
         m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         m_PointLight = GetComponent<Light>();
         m_NavMeshComponent = GetComponent<NavMeshAgent>();
+        m_NavMeshComponent.speed = m_Speed;
 
         m_Colors = new Color[4] {
             new Color(1.0f, 0.0f, 0.0f), // RED
@@ -31,7 +35,6 @@ public class Bot : MonoBehaviour {
         };
 
         m_NewRandomColorChange = Random.value * (m_MaxRandomColorChange - m_MinRandomColorChange) + m_MinRandomColorChange;
-        print(m_NewRandomColorChange);
         StartCoroutine(ChangeColor());
 
         GenerateNewTarget();
@@ -44,14 +47,33 @@ public class Bot : MonoBehaviour {
             if (dist < 0.5) {
                 GenerateNewTarget();
             }
+            m_NavMeshComponent.speed = (Mathf.PerlinNoise(Time.time * 0.5f, 0.0f) / 4.0f + 0.75f) * m_Speed;
 
             RaycastHit hitInfo;
             if (Physics.Linecast(transform.position, m_MainCamera.transform.position, out hitInfo, Physics.DefaultRaycastLayers) == true) {
-                /*Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-                if (building != null) {
-                    // TODO Ajouter la gestion du building
-                }*/
+                Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                if ((m_Building == null) && (building != null)) {
+                    m_Building = building.gameObject;
+                    building.Enter(gameObject);
+                }
+            } else {
+                if (Physics.Raycast(transform.position + new Vector3(0.0f, 1000.0f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f), out hitInfo, 10000.0f, Physics.DefaultRaycastLayers) == true) {
+                    Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                    if ((building == null) && (m_Building != null)) {
+                        m_Building.GetComponent<Building>().Exit(gameObject);
+                        m_Building = null;
+                    } else if ((m_Building == null) && (building != null)) {
+                        m_Building = building.gameObject;
+                        building.Enter(gameObject);
+                    }
+                } else {
+                    if (m_Building != null) {
+                        m_Building.GetComponent<Building>().Exit(gameObject);
+                        m_Building = null;
+                    }
+                }
             }
+            
         }
     }
 

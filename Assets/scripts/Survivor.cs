@@ -13,6 +13,8 @@ public class Survivor : MonoBehaviour {
     private Light m_PointLight;
 
     private Color[] m_Colors;
+    // Le buiding dans lequel on se trouve
+    private GameObject m_Building = null;
 
 	// Use this for initialization
 	void Start () {
@@ -43,16 +45,31 @@ public class Survivor : MonoBehaviour {
 
                 RaycastHit hitInfo;
                 if (Physics.Linecast(transform.position, m_MainCamera.transform.position, out hitInfo, Physics.DefaultRaycastLayers) == true) {
-                    hitInfo.collider.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // A Effacer
-                    /*Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-                    if (building != null) {
-                        // TODO Ajouter la gestion du building
-                    }*/
+                    Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                    if ((m_Building == null) && (building != null)) {
+                        m_Building = building.gameObject;
+                        building.Enter(gameObject);
+                    }
+                } else {
+                    if (Physics.Raycast(transform.position + new Vector3(0.0f, 1000.0f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f), out hitInfo, 10000.0f, Physics.DefaultRaycastLayers) == true) {
+                        Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                        if ((building == null) && (m_Building != null)) {
+                            m_Building.GetComponent<Building>().Exit(gameObject);
+                            m_Building = null;
+                        } else if ((m_Building == null) && (building != null)) {
+                            m_Building = building.gameObject;
+                            building.Enter(gameObject);
+                        }
+                    } else {
+                        if (m_Building != null) {
+                            m_Building.GetComponent<Building>().Exit(gameObject);
+                            m_Building = null;
+                        }
+                    }
                 }
             }
             
             if (Input.GetAxis("Red" + m_ID) == 1.0f) {
-                print("Red" + m_ID);
                 m_PointLight.color = m_Colors[0];
             } else if (Input.GetAxis("Green" + m_ID) == 1.0f) {
                 m_PointLight.color = m_Colors[1];
@@ -68,20 +85,23 @@ public class Survivor : MonoBehaviour {
         return m_IsDead;
     }
 
-    void OnTriggerEnter2D(Collider2D hit) {
-        hit.collider.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // A Effacer
-        /*Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-        if (building != null) {
-            // TODO Ajouter la gestion du building
-        }*/
+    /*void OnTriggerEnter(Collider hit) {
+        Building building = hit.collider.gameObject.GetComponent<Building>();
+        if ((m_Building == null) && (building != null)) {
+            print("Enter");
+            m_Building = building.gameObject;
+            building.Enter(gameObject);
+        }
     }
-    void OnCollisionEnter(Collision collision) {
-        collision.collider.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // A Effacer
-        /*Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-        if (building != null) {
-            // TODO Ajouter la gestion du building
-        }*/
-    }
+    void OnTriggerExit(Collider hit) {
+        print("Exit1");
+        print("Exit2");
+        if (m_Building != null) {
+            m_Building.GetComponent<Building>().Exit(gameObject);
+            m_Building = null;
+        }
+    }*/
+
     /**
      * Fonction utilitaire pour férer l'angle de déplacement des persos.
      **/
