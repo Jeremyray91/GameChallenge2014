@@ -4,7 +4,7 @@ using System.Collections;
 public class Survivor : MonoBehaviour {
 
     public int m_ID;
-    public float m_Speed = 10.0f;
+    public float m_Speed = 18.0f;
 
 
     private float m_Sensi = 0.5f;
@@ -15,6 +15,9 @@ public class Survivor : MonoBehaviour {
     private Color[] m_Colors;
     // Le buiding dans lequel on se trouve
     private GameObject m_Building = null;
+
+    private bool m_GoToNearestBuilding = false;
+    private GameObject m_NearestBuilding = null;
 
 	// Use this for initialization
 	void Start () {
@@ -33,50 +36,60 @@ public class Survivor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (!IsDead()) {
-            Vector2 direction2D = new Vector2(Input.GetAxis("Horizontal" + m_ID), Input.GetAxis("Vertical" + m_ID));
-            if (direction2D.magnitude >= m_Sensi) {
-                float angle = m_MainCamera.transform.rotation.eulerAngles.y;
-                
-                direction2D = Rotate(direction2D, -angle);
-                direction2D.Normalize();
-                Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
+            if (!m_GoToNearestBuilding) {
+                Vector2 direction2D = new Vector2(Input.GetAxis("Horizontal" + m_ID), Input.GetAxis("Vertical" + m_ID));
+                if (direction2D.magnitude >= m_Sensi) {
+                    float angle = m_MainCamera.transform.rotation.eulerAngles.y;
 
-                transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
+                    direction2D = Rotate(direction2D, -angle);
+                    direction2D.Normalize();
+                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
 
-                RaycastHit hitInfo;
-                if (Physics.Linecast(transform.position, m_MainCamera.transform.position, out hitInfo, Physics.DefaultRaycastLayers) == true) {
+                    transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
+                }
+
+                if (Input.GetAxis("Red" + m_ID) == 1.0f) {
+                    m_PointLight.color = m_Colors[0];
+                } else if (Input.GetAxis("Green" + m_ID) == 1.0f) {
+                    m_PointLight.color = m_Colors[1];
+                } else if (Input.GetAxis("Blue" + m_ID) == 1.0f) {
+                    m_PointLight.color = m_Colors[2];
+                } else if (Input.GetAxis("Yellow" + m_ID) == 1.0f) {
+                    m_PointLight.color = m_Colors[3];
+                }
+            } else {
+                if (m_Building == null) {
+                    Vector2 direction2D = m_NearestBuilding.transform.position - transform.position;
+                    direction2D.Normalize();
+                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
+
+                    transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
+                }
+            }
+
+            RaycastHit hitInfo;
+            if (Physics.Linecast(transform.position, m_MainCamera.transform.position, out hitInfo, Physics.DefaultRaycastLayers) == true) {
+                Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                if ((m_Building == null) && (building != null)) {
+                    m_Building = building.gameObject;
+                    building.Enter(gameObject);
+                }
+            } else {
+                if (Physics.Raycast(transform.position + new Vector3(0.0f, 1000.0f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f), out hitInfo, 10000.0f, Physics.DefaultRaycastLayers) == true) {
                     Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-                    if ((m_Building == null) && (building != null)) {
+                    if ((building == null) && (m_Building != null)) {
+                        m_Building.GetComponent<Building>().Exit(gameObject);
+                        m_Building = null;
+                    } else if ((m_Building == null) && (building != null)) {
                         m_Building = building.gameObject;
                         building.Enter(gameObject);
                     }
                 } else {
-                    if (Physics.Raycast(transform.position + new Vector3(0.0f, 1000.0f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f), out hitInfo, 10000.0f, Physics.DefaultRaycastLayers) == true) {
-                        Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-                        if ((building == null) && (m_Building != null)) {
-                            m_Building.GetComponent<Building>().Exit(gameObject);
-                            m_Building = null;
-                        } else if ((m_Building == null) && (building != null)) {
-                            m_Building = building.gameObject;
-                            building.Enter(gameObject);
-                        }
-                    } else {
-                        if (m_Building != null) {
-                            m_Building.GetComponent<Building>().Exit(gameObject);
-                            m_Building = null;
-                        }
+                    if (m_Building != null) {
+                        m_Building.GetComponent<Building>().Exit(gameObject);
+                        m_Building = null;
                     }
                 }
-            }
-            
-            if (Input.GetAxis("Red" + m_ID) == 1.0f) {
-                m_PointLight.color = m_Colors[0];
-            } else if (Input.GetAxis("Green" + m_ID) == 1.0f) {
-                m_PointLight.color = m_Colors[1];
-            } else if (Input.GetAxis("Blue" + m_ID) == 1.0f) {
-                m_PointLight.color = m_Colors[2];
-            } else if (Input.GetAxis("Yellow" + m_ID) == 1.0f) {
-                m_PointLight.color = m_Colors[3];
             }
         }
 	}
@@ -85,22 +98,35 @@ public class Survivor : MonoBehaviour {
         return m_IsDead;
     }
 
-    /*void OnTriggerEnter(Collider hit) {
-        Building building = hit.collider.gameObject.GetComponent<Building>();
-        if ((m_Building == null) && (building != null)) {
-            print("Enter");
-            m_Building = building.gameObject;
-            building.Enter(gameObject);
+    public void GoToNearestBuilding() {
+        if (m_Building == null) {
+            GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+            float nearestDistance = float.MaxValue;
+            GameObject nearest = null;
+            foreach (GameObject building in buildings) {
+                if (nearest == null) {
+                    nearest = building;
+                } else {
+                    float dist = (gameObject.transform.position - building.transform.position).magnitude;
+                    if (dist < nearestDistance) {
+                        nearestDistance = dist;
+                        nearest = building;
+                    }
+                }
+            }
+            m_NearestBuilding = nearest;
+            m_GoToNearestBuilding = true;
         }
     }
-    void OnTriggerExit(Collider hit) {
-        print("Exit1");
-        print("Exit2");
-        if (m_Building != null) {
-            m_Building.GetComponent<Building>().Exit(gameObject);
-            m_Building = null;
-        }
-    }*/
+
+    public void StartNewTurn() {
+        m_GoToNearestBuilding = false;
+        m_NearestBuilding = null;
+    }
+
+    public bool IsInBuilding() {
+        return m_Building != null;
+    }
 
     /**
      * Fonction utilitaire pour férer l'angle de déplacement des persos.

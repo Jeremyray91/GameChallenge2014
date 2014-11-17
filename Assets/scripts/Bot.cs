@@ -19,6 +19,8 @@ public class Bot : MonoBehaviour {
 
     private GameObject m_Building = null;
 
+    private bool m_GoToNearestBuilding = false;
+    private GameObject m_NearestBuilding = null;
 
     // Use this for initialization
     void Start() {
@@ -43,12 +45,21 @@ public class Bot : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (!IsDead()) {
-            float dist = (transform.position - m_TargetPosition).magnitude;
-            if (dist < 0.5) {
-                GenerateNewTarget();
-            }
-            m_NavMeshComponent.speed = (Mathf.PerlinNoise(Time.time * 0.5f, 0.0f) / 4.0f + 0.75f) * m_Speed;
+            if (!m_GoToNearestBuilding) {
+                float dist = (transform.position - m_TargetPosition).magnitude;
+                if (dist < 0.5) {
+                    GenerateNewTarget();
+                }
+                m_NavMeshComponent.speed = (Mathf.PerlinNoise(Time.time * 0.5f, 0.0f) / 4.0f + 0.75f) * m_Speed;
+            } else {
+                if (m_Building == null) {
+                    Vector2 direction2D = m_NearestBuilding.transform.position - transform.position;
+                    direction2D.Normalize();
+                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
 
+                    transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
+                }
+            }
             RaycastHit hitInfo;
             if (Physics.Linecast(transform.position, m_MainCamera.transform.position, out hitInfo, Physics.DefaultRaycastLayers) == true) {
                 Building building = hitInfo.collider.gameObject.GetComponent<Building>();
@@ -73,7 +84,6 @@ public class Bot : MonoBehaviour {
                     }
                 }
             }
-            
         }
     }
 
@@ -98,17 +108,13 @@ public class Bot : MonoBehaviour {
         StartCoroutine(ChangeColor());
     }
 
-    void OnTriggerEnter2D(Collider2D hit) {
-        /*Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-        if (building != null) {
-            // TODO Ajouter la gestion du building
-        }*/
+    public void StartNewTurn() {
+        m_GoToNearestBuilding = false;
+        m_NearestBuilding = null;
     }
-    void OnCollisionEnter(Collision collision) {
-        /*Building building = hitInfo.collider.gameObject.GetComponent<Building>();
-        if (building != null) {
-            // TODO Ajouter la gestion du building
-        }*/
+
+    public bool IsInBuilding() {
+        return m_Building != null;
     }
     /**
      * Fonction utilitaire pour férer l'angle de déplacement des persos.
