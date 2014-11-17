@@ -3,13 +3,14 @@ using System.Collections;
 
 public class Survivor : MonoBehaviour {
 
-    public int m_ID = 1;
+    public int m_ID;
     public float m_Speed = 10.0f;
 
 
     private float m_Sensi = 0.5f;
     private bool m_IsDead = false;
     private GameObject m_MainCamera;
+    private Light m_PointLight;
 
     private Color[] m_Colors;
 
@@ -17,11 +18,13 @@ public class Survivor : MonoBehaviour {
 	void Start () {
         m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 
+        m_PointLight = GetComponent<Light>();
+
         m_Colors = new Color[4] {
             new Color(1.0f, 0.0f, 0.0f), // RED
             new Color(0.0f, 1.0f, 0.0f), // GREEN
             new Color(0.0f, 0.0f, 1.0f), // BLUE
-            new Color(0.96f, 0.81f, 0.08f), // YELOW
+            new Color(0.96f, 0.81f, 0.08f) // YELOW
         };
 	}
 	
@@ -46,6 +49,17 @@ public class Survivor : MonoBehaviour {
                         // TODO Ajouter la gestion du building
                     }*/
                 }
+            }
+            
+            if (Input.GetAxis("Red" + m_ID) == 1.0f) {
+                print("Red" + m_ID);
+                m_PointLight.color = m_Colors[0];
+            } else if (Input.GetAxis("Green" + m_ID) == 1.0f) {
+                m_PointLight.color = m_Colors[1];
+            } else if (Input.GetAxis("Blue" + m_ID) == 1.0f) {
+                m_PointLight.color = m_Colors[2];
+            } else if (Input.GetAxis("Yellow" + m_ID) == 1.0f) {
+                m_PointLight.color = m_Colors[3];
             }
         }
 	}
