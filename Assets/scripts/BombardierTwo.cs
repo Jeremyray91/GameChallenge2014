@@ -61,7 +61,7 @@ public class BombardierTwo : Bombardier
                     {
                         transform.position += new Vector3(-25, 0, -25) * Time.deltaTime;
                     }
-                    if (Input.GetKeyDown(KeyCode.KeypadEnter))
+                    if (Input.GetKeyDown(KeyCode.KeypadEnter) && (m_TargetingRay == true || m_TargetingHit == true))
                     {
                         m_Ready = true;
                     }
