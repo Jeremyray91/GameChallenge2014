@@ -9,6 +9,7 @@ public class Building : MonoBehaviour {
     private Dictionary<GameObject, int> m_Survivors;
 
     private Light m_LightComponent;
+    private Material m_Material;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,12 @@ public class Building : MonoBehaviour {
             m_LightComponent.color = new Color(0.0f, 0.0f, 1.0f);
             m_LightComponent.enabled = false;
         }
+        m_Material = renderer.material;
+        if (m_Material != null) {
+            print(m_Material.name);
+            m_Material.SetFloat("_ParamFloat1", 1.36455640f);
+        
+        }
 	}
 	
 	// Update is called once per frame
@@ -26,6 +33,15 @@ public class Building : MonoBehaviour {
             bool on = false;
             foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
                 on = on || (kvp.Value > 0) ;
+            }
+            if (on) {
+                if (m_Material != null) {
+                    m_Material.SetFloat("_ParamFloat1", 1.0f);
+                }
+            } else {
+                if (m_Material != null) {
+                    m_Material.SetFloat("_ParamFloat1", 0.0f);
+                }
             }
             m_LightComponent.enabled = on;
         }

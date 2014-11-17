@@ -42,7 +42,7 @@ public class Survivor : MonoBehaviour {
                     float angle = m_MainCamera.transform.rotation.eulerAngles.y;
 
                     direction2D = Rotate(direction2D, -angle);
-                    direction2D.Normalize();
+                    //direction2D.Normalize();
                     Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
 
                     transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
