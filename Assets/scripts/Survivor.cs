@@ -104,6 +104,7 @@ public class Survivor : MonoBehaviour {
     public void Kill()
     {
         m_IsDead = true;
+        gameObject.SetActive(false);
     }
 
     public void GoToNearestBuilding() {

@@ -8,7 +8,7 @@ public class GameStart : MonoBehaviour
                GameObject[] m_Player;
         public   GameObject m_Bot;
                         int m_CheckHide;
-                       bool m_HasStarted;
+        public         bool m_HasStarted;
 
     #endregion
 

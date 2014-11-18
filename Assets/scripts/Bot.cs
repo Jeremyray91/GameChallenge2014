@@ -105,6 +105,7 @@ public class Bot : MonoBehaviour {
     public void Kill()
     {
         m_IsDead = true;
+        gameObject.SetActive(false);        
     }
 
     IEnumerator ChangeColor() {
@@ -137,7 +138,7 @@ public class Bot : MonoBehaviour {
             m_NearestBuilding = nearest;
             m_GoToNearestBuilding = true;
             if (m_NavMeshComponent != null) {
-                print("Stop ?");
+                //print("Stop ?");
                 m_NavMeshComponent.enabled = false;
                 GetComponent<Collider>().enabled = false;
             }

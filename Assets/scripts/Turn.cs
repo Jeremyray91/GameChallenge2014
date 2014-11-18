@@ -58,7 +58,7 @@ public class Turn : MonoBehaviour
     {
         if (m_Turn == 0)
             {
-                Debug.Log(0);
+                //Debug.Log(0);
                 if (m_Timer >= m_TimerPlayerTurn)
                 {
                     if (m_Mooving == false)
@@ -102,7 +102,7 @@ public class Turn : MonoBehaviour
             }
             else if (m_Turn == 1)
             {
-                Debug.Log(1);
+                //Debug.Log(1);
                 if (m_Timer >= m_TimerBomberTurn || (m_Bombardier[0].GetComponent<Bombardier>().m_Ready == true && m_Bombardier[1].GetComponent<Bombardier>().m_Ready == true))
                 {
                     m_Bombardier[0].GetComponent<Bombardier>().m_Stop = true;
@@ -133,7 +133,7 @@ public class Turn : MonoBehaviour
                     m_Timer += Time.deltaTime;
                 }
             }
-            Debug.Log(m_Timer);
+            //Debug.Log(m_Timer);
     }
 
     #endregion

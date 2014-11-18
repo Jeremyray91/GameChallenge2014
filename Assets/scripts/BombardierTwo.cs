@@ -28,7 +28,7 @@ public class BombardierTwo : Bombardier
         void Update()
         {
             m_GameOver = GameObject.Find("GameOver").GetComponent<WinConditions>().m_GameOver;
-            if (m_GameOver == false)
+            if (m_GameOver == false && GameObject.Find("GameManager").GetComponent<GameStart>().m_HasStarted == true)
             {
                 Debug.DrawRay(Camera.main.transform.position, transform.position - Camera.main.transform.position, Color.white);
                 RaycastHit hitInfo;

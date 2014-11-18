@@ -21,11 +21,13 @@ public class WinConditions : MonoBehaviour
 	    void Update () 
         {
 	        m_NbPlayer = GameObject.FindGameObjectsWithTag("Player").Length;
+            Debug.Log(m_NbPlayer);
             if (m_NbPlayer == 0)
             {
                 m_GameOver = true;
                 renderer.material.color = Color.green;
                 renderer.enabled = true;
+                Time.timeScale = 0;
             }
             m_NbRadioUsed = GetComponent<Radio_manager>().radio_declencher;
             if (m_NbRadioUsed == 3)
@@ -33,6 +35,7 @@ public class WinConditions : MonoBehaviour
                 m_GameOver = true;
                 renderer.material.color = Color.red;
                 renderer.enabled = true;
+                Time.timeScale = 0;
             }
 	    }
 
