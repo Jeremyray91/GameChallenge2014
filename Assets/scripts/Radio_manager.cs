@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Radio_manager : MonoBehaviour {
 
 	public int tour =0;
-	public static int radio_declencher=0;
+	public int radio_declencher=0;
     public GameObject[] m_batiments;
 
     private List<GameObject> m_AvailableBuildings;
@@ -38,15 +38,9 @@ public class Radio_manager : MonoBehaviour {
 		if (radio_object != null){
 			radio_object.GetComponent<Radio>().enabled = false; //radio supprimer 
 		}
-        bool foundBuilding = false;
-        while ((!foundBuilding) && (m_AvailableBuildings.Count > 0)) {
-            radio_object = m_AvailableBuildings[0];
-            m_AvailableBuildings.RemoveAt(0);
-            if (!radio_object.GetComponent<Building>().IsDestroyed()) {
-                radio_object.AddComponent<Radio>();
-                foundBuilding = true;
-            }
-        }
+		radio_object = m_AvailableBuildings[0];
+        m_AvailableBuildings.RemoveAt(0);
+        radio_object.AddComponent<Radio>();
 		//------------traitement de radio-------------------//
 
 	}

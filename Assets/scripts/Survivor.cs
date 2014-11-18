@@ -19,6 +19,8 @@ public class Survivor : MonoBehaviour {
     private bool m_GoToNearestBuilding = false;
     private GameObject m_NearestBuilding = null;
 
+            bool m_GameOver;
+
 	// Use this for initialization
 	void Start () {
         m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -35,7 +37,8 @@ public class Survivor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!IsDead()) {
+        m_GameOver = GameObject.Find("GameOver").GetComponent<WinConditions>().m_GameOver;
+        if (!IsDead() || m_GameOver == false) {
             if (!m_GoToNearestBuilding) {
                 Vector2 direction2D = new Vector2(Input.GetAxis("Horizontal" + m_ID), Input.GetAxis("Vertical" + m_ID));
                 if (direction2D.magnitude >= m_Sensi) {
@@ -59,9 +62,9 @@ public class Survivor : MonoBehaviour {
                 }
             } else {
                 if (m_Building == null) {
-                    Vector3 direction3D = m_NearestBuilding.transform.position - transform.position;
-                    direction3D.y = 0.0f;
-                    direction3D.Normalize();
+                    Vector2 direction2D = m_NearestBuilding.transform.position - transform.position;
+                    direction2D.Normalize();
+                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
 
                     transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
                 }
@@ -98,21 +101,24 @@ public class Survivor : MonoBehaviour {
         return m_IsDead;
     }
 
+    public void Kill()
+    {
+        m_IsDead = true;
+    }
+
     public void GoToNearestBuilding() {
         if (m_Building == null) {
             GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
             float nearestDistance = float.MaxValue;
             GameObject nearest = null;
             foreach (GameObject building in buildings) {
-                if (!building.GetComponent<Building>().IsDestroyed()) {
-                    if (nearest == null) {
+                if (nearest == null) {
+                    nearest = building;
+                } else {
+                    float dist = (gameObject.transform.position - building.transform.position).magnitude;
+                    if (dist < nearestDistance) {
+                        nearestDistance = dist;
                         nearest = building;
-                    } else {
-                        float dist = (gameObject.transform.position - building.transform.position).magnitude;
-                        if (dist < nearestDistance) {
-                            nearestDistance = dist;
-                            nearest = building;
-                        }
                     }
                 }
             }

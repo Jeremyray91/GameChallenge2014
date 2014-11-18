@@ -21,6 +21,7 @@ public class Bot : MonoBehaviour {
 
     private bool m_GoToNearestBuilding = false;
     private GameObject m_NearestBuilding = null;
+    bool m_GameOver;
 
     // Use this for initialization
     void Start() {
@@ -43,8 +44,11 @@ public class Bot : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
-        if (!IsDead()) {
+    void Update()
+    {
+        m_GameOver = GameObject.Find("GameOver").GetComponent<WinConditions>().m_GameOver;
+        if (!IsDead() || m_GameOver == false)
+        {
             if (!m_GoToNearestBuilding) {
                 float dist = (transform.position - m_TargetPosition).magnitude;
                 if (dist < 0.5) {
@@ -53,9 +57,9 @@ public class Bot : MonoBehaviour {
                 m_NavMeshComponent.speed = (Mathf.PerlinNoise(Time.time * 0.5f, 0.0f) / 4.0f + 0.75f) * m_Speed;
             } else {
                 if (m_Building == null) {
-                    Vector3 direction3D = m_NearestBuilding.transform.position - transform.position;
-                    direction3D.y = 0.0f;
-                    direction3D.Normalize();
+                    Vector2 direction2D = m_NearestBuilding.transform.position - transform.position;
+                    direction2D.Normalize();
+                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
 
                     transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
                 }
@@ -98,6 +102,11 @@ public class Bot : MonoBehaviour {
         return m_IsDead;
     }
 
+    public void Kill()
+    {
+        m_IsDead = true;
+    }
+
     IEnumerator ChangeColor() {
         yield return new WaitForSeconds(m_NewRandomColorChange);
 
@@ -114,16 +123,14 @@ public class Bot : MonoBehaviour {
             float nearestDistance = float.MaxValue;
             GameObject nearest = null;
             foreach (GameObject building in buildings) {
-                if (!building.GetComponent<Building>().IsDestroyed()) {
-                    if (nearest == null) {
+                if (nearest == null) {
+                    nearest = building;
+                    nearestDistance = (gameObject.transform.position - building.transform.position).magnitude;
+                } else {
+                    float dist = (gameObject.transform.position - building.transform.position).magnitude;
+                    if (dist < nearestDistance) {
+                        nearestDistance = dist;
                         nearest = building;
-                        nearestDistance = (gameObject.transform.position - building.transform.position).magnitude;
-                    } else {
-                        float dist = (gameObject.transform.position - building.transform.position).magnitude;
-                        if (dist < nearestDistance) {
-                            nearestDistance = dist;
-                            nearest = building;
-                        }
                     }
                 }
             }
