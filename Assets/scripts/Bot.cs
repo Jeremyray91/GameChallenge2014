@@ -17,10 +17,10 @@ public class Bot : MonoBehaviour {
 
     private Vector3 m_TargetPosition;
 
-    private GameObject m_Building = null;
+    public GameObject m_Building = null;
 
-    private bool m_GoToNearestBuilding = false;
-    private GameObject m_NearestBuilding = null;
+    public bool m_GoToNearestBuilding = false;
+    public GameObject m_NearestBuilding = null;
 
     // Use this for initialization
     void Start() {
@@ -53,9 +53,9 @@ public class Bot : MonoBehaviour {
                 m_NavMeshComponent.speed = (Mathf.PerlinNoise(Time.time * 0.5f, 0.0f) / 4.0f + 0.75f) * m_Speed;
             } else {
                 if (m_Building == null) {
-                    Vector2 direction2D = m_NearestBuilding.transform.position - transform.position;
-                    direction2D.Normalize();
-                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
+                    Vector3 direction3D = m_NearestBuilding.transform.position - transform.position;
+                    direction3D.y = 0.0f;
+                    direction3D.Normalize();
 
                     transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
                 }
@@ -114,13 +114,16 @@ public class Bot : MonoBehaviour {
             float nearestDistance = float.MaxValue;
             GameObject nearest = null;
             foreach (GameObject building in buildings) {
-                if (nearest == null) {
-                    nearest = building;
-                } else {
-                    float dist = (gameObject.transform.position - building.transform.position).magnitude;
-                    if (dist < nearestDistance) {
-                        nearestDistance = dist;
+                if (!building.GetComponent<Building>().IsDestroyed()) {
+                    if (nearest == null) {
                         nearest = building;
+                        nearestDistance = (gameObject.transform.position - building.transform.position).magnitude;
+                    } else {
+                        float dist = (gameObject.transform.position - building.transform.position).magnitude;
+                        if (dist < nearestDistance) {
+                            nearestDistance = dist;
+                            nearest = building;
+                        }
                     }
                 }
             }
@@ -128,7 +131,7 @@ public class Bot : MonoBehaviour {
             m_GoToNearestBuilding = true;
             if (m_NavMeshComponent != null) {
                 print("Stop ?");
-                m_NavMeshComponent.Stop();
+                m_NavMeshComponent.enabled = false;
                 GetComponent<Collider>().enabled = false;
             }
         }
@@ -138,6 +141,8 @@ public class Bot : MonoBehaviour {
         m_GoToNearestBuilding = false;
         m_NearestBuilding = null;
         GetComponent<Collider>().enabled = true;
+        m_NavMeshComponent.enabled = true;
+        GenerateNewTarget();
     }
 
     public bool IsInBuilding() {

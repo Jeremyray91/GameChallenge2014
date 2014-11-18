@@ -49,7 +49,6 @@ public class Survivor : MonoBehaviour {
                 }
 
                 if (Input.GetAxis("Red" + m_ID) == 1.0f) {
-                    GoToNearestBuilding();
                     m_PointLight.color = m_Colors[0];
                 } else if (Input.GetAxis("Green" + m_ID) == 1.0f) {
                     m_PointLight.color = m_Colors[1];
@@ -60,9 +59,9 @@ public class Survivor : MonoBehaviour {
                 }
             } else {
                 if (m_Building == null) {
-                    Vector2 direction2D = m_NearestBuilding.transform.position - transform.position;
-                    direction2D.Normalize();
-                    Vector3 direction3D = new Vector3(direction2D.x, 0.0f, direction2D.y);
+                    Vector3 direction3D = m_NearestBuilding.transform.position - transform.position;
+                    direction3D.y = 0.0f;
+                    direction3D.Normalize();
 
                     transform.position = transform.position + direction3D * m_Speed * Time.deltaTime;
                 }
@@ -105,13 +104,15 @@ public class Survivor : MonoBehaviour {
             float nearestDistance = float.MaxValue;
             GameObject nearest = null;
             foreach (GameObject building in buildings) {
-                if (nearest == null) {
-                    nearest = building;
-                } else {
-                    float dist = (gameObject.transform.position - building.transform.position).magnitude;
-                    if (dist < nearestDistance) {
-                        nearestDistance = dist;
+                if (!building.GetComponent<Building>().IsDestroyed()) {
+                    if (nearest == null) {
                         nearest = building;
+                    } else {
+                        float dist = (gameObject.transform.position - building.transform.position).magnitude;
+                        if (dist < nearestDistance) {
+                            nearestDistance = dist;
+                            nearest = building;
+                        }
                     }
                 }
             }
