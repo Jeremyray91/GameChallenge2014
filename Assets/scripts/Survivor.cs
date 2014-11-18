@@ -49,6 +49,7 @@ public class Survivor : MonoBehaviour {
                 }
 
                 if (Input.GetAxis("Red" + m_ID) == 1.0f) {
+                    GoToNearestBuilding();
                     m_PointLight.color = m_Colors[0];
                 } else if (Input.GetAxis("Green" + m_ID) == 1.0f) {
                     m_PointLight.color = m_Colors[1];

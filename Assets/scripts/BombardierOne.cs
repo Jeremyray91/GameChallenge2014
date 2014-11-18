@@ -17,9 +17,8 @@ public class BombardierOne : Bombardier
         void Start()
         {
             m_Buildings = GameObject.FindGameObjectsWithTag("Building");
-            m_BuildingColor = GameObject.FindGameObjectWithTag("Building").transform.Find("Point light one").GetComponent<Light>().color;
+            m_BuildingColor = GameObject.FindGameObjectWithTag("Building").GetComponent<Light>().color;
             m_TargetingRay = false;
-            m_TargetingHit = false;
             m_TouchedBuilding = null;
             m_Ready = false;
             m_Stop = false;
@@ -28,16 +27,23 @@ public class BombardierOne : Bombardier
         void Update()
         {
             Debug.DrawRay(Camera.main.transform.position, transform.position - Camera.main.transform.position, Color.white);
-            if (Physics.Raycast(transform.position, transform.position - Camera.main.transform.position, out m_Hit))
-            {
-                if (m_Hit.transform.gameObject.tag == "Building")
-                {
+
+            RaycastHit hitInfo;
+            if (Physics.Linecast(Camera.main.transform.position, transform.position, out hitInfo, Physics.DefaultRaycastLayers) == true) {
+                Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                    m_TouchedBuilding = building.gameObject;
                     m_TargetingRay = true;
-                    m_TouchedBuilding = m_Hit.collider.gameObject;
-                }
-                else
-                {
-                    m_TargetingRay = false;
+                } else {
+                if (Physics.Raycast(transform.position + new Vector3(0.0f, 1000.0f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f), out hitInfo, 10000.0f, Physics.DefaultRaycastLayers) == true) {
+                    Building building = hitInfo.collider.gameObject.GetComponent<Building>();
+                    if (building == null) {
+                        m_TargetingRay = false;
+                    } else {
+                        m_TouchedBuilding = building.gameObject;
+                        m_TargetingRay = true;
+                    }
+                } else {
+                    m_TargetingRay = true;
                 }
             }
 
@@ -75,44 +81,30 @@ public class BombardierOne : Bombardier
             if (m_TouchedBuilding == null)
             {
                 m_TargetingRay = false;
-                m_TargetingHit = false;
             }
 
             if (m_Ready == false)
             {
-                if (m_TargetingRay == true || m_TargetingHit == true)
+                if (m_TargetingRay == true)
                 {
-                    m_TouchedBuilding.transform.Find("Point light one").GetComponent<Light>().color = transform.Find("Point light").GetComponent<Light>().color;
-                    m_TouchedBuilding.transform.Find("Point light two").GetComponent<Light>().intensity = 1;
+                    m_BuildingColor = GameObject.FindGameObjectWithTag("Building").GetComponent<Light>().color;
+                    m_TouchedBuilding.GetComponent<Light>().color = transform.Find("Point light").GetComponent<Light>().color;
+                    //m_TouchedBuilding.GetComponent<Light>().intensity = 1;
+                    m_TouchedBuilding.GetComponent<Building>().ForceLightOn(true);
                 }
                 else if (m_TouchedBuilding != null)
                 {
-                    m_TouchedBuilding.transform.Find("Point light one").GetComponent<Light>().color = m_BuildingColor;
-                    m_TouchedBuilding.transform.Find("Point light one").GetComponent<Light>().intensity = 2;
-                    m_TouchedBuilding.transform.Find("Point light two").GetComponent<Light>().intensity = 2;
+                    m_TouchedBuilding.GetComponent<Light>().color = m_BuildingColor;
+                    //m_TouchedBuilding.GetComponent<Light>().intensity = 2;
+                    //m_TouchedBuilding.GetComponent<Light>().intensity = 2;
+                    m_TouchedBuilding.GetComponent<Building>().ForceLightOn(false);
+                    m_TouchedBuilding = null;
                 }
             }
             else
             {
-                m_TouchedBuilding.transform.Find("Point light one").GetComponent<Light>().intensity = 3;
-                m_TouchedBuilding.transform.Find("Point light two").GetComponent<Light>().intensity = 0;
-            }
-        }
-
-        void OnTriggerEnter(Collider collider)
-        {
-            if (collider.gameObject.tag == "Building")
-            {
-                m_TargetingHit = true;
-                m_TouchedBuilding = collider.gameObject;
-            }
-        }
-
-        void OnTriggerExit(Collider collider)
-        {
-            if (collider.gameObject.tag == "Building")
-            {
-                m_TargetingHit = false;
+                //m_TouchedBuilding.GetComponent<Light>().intensity = 3;
+                //m_TouchedBuilding.GetComponent<Light>().intensity = 0;
             }
         }
 

@@ -11,6 +11,8 @@ public class Building : MonoBehaviour {
     private Light m_LightComponent;
     private Material m_Material;
 
+    private bool m_ForceLightOn = false;
+
 	// Use this for initialization
 	void Start () {
         m_Survivors = new Dictionary<GameObject, int>();
@@ -32,6 +34,9 @@ public class Building : MonoBehaviour {
             bool on = false;
             foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
                 on = on || (kvp.Value > 0) ;
+                if (on) {
+                    break;
+                }
             }
             if (on) {
                 if (m_Material != null) {
@@ -42,7 +47,7 @@ public class Building : MonoBehaviour {
                     m_Material.SetFloat("_ParamFloat1", 0.0f);
                 }
             }
-            m_LightComponent.enabled = on;
+            m_LightComponent.enabled = on || m_ForceLightOn;
         }
 	}
 
@@ -73,5 +78,9 @@ public class Building : MonoBehaviour {
         }
 
         return hasPlayer;
+    }
+
+    public void ForceLightOn(bool force) {
+        m_ForceLightOn = force;
     }
 }

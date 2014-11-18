@@ -108,9 +108,36 @@ public class Bot : MonoBehaviour {
         StartCoroutine(ChangeColor());
     }
 
+    public void GoToNearestBuilding() {
+        if (m_Building == null) {
+            GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+            float nearestDistance = float.MaxValue;
+            GameObject nearest = null;
+            foreach (GameObject building in buildings) {
+                if (nearest == null) {
+                    nearest = building;
+                } else {
+                    float dist = (gameObject.transform.position - building.transform.position).magnitude;
+                    if (dist < nearestDistance) {
+                        nearestDistance = dist;
+                        nearest = building;
+                    }
+                }
+            }
+            m_NearestBuilding = nearest;
+            m_GoToNearestBuilding = true;
+            if (m_NavMeshComponent != null) {
+                print("Stop ?");
+                m_NavMeshComponent.Stop();
+                GetComponent<Collider>().enabled = false;
+            }
+        }
+    }
+
     public void StartNewTurn() {
         m_GoToNearestBuilding = false;
         m_NearestBuilding = null;
+        GetComponent<Collider>().enabled = true;
     }
 
     public bool IsInBuilding() {
