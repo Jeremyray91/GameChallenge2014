@@ -17,10 +17,10 @@ public class Bot : MonoBehaviour {
 
     private Vector3 m_TargetPosition;
 
-    public GameObject m_Building = null;
+    private GameObject m_Building = null;
 
-    public bool m_GoToNearestBuilding = false;
-    public GameObject m_NearestBuilding = null;
+    private bool m_GoToNearestBuilding = false;
+    private GameObject m_NearestBuilding = null;
 
     // Use this for initialization
     void Start() {

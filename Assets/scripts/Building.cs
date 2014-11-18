@@ -41,7 +41,7 @@ public class Building : MonoBehaviour {
             }
             if (on) {
                 if (m_Material != null) {
-                    m_Material.SetFloat("_ParamFloat1", 1.0f);
+                    m_Material.SetFloat("_ParamFloat1", 9.0f);
                 }
             } else {
                 if (m_Material != null) {
