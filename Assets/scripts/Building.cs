@@ -21,8 +21,7 @@ public class Building : MonoBehaviour {
         }
         m_Material = renderer.material;
         if (m_Material != null) {
-            print(m_Material.name);
-            m_Material.SetFloat("_ParamFloat1", 1.36455640f);
+            m_Material.SetFloat("_ParamFloat1", 0.0f);
         
         }
 	}
@@ -63,5 +62,16 @@ public class Building : MonoBehaviour {
                 m_Survivors.Remove(survivor);
             }*/
         }
+    }
+
+    public bool HasPlayer() {
+        bool hasPlayer = false;
+        foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
+            if (kvp.Key.GetComponent<Survivor>() != null) {
+                hasPlayer = hasPlayer || (kvp.Value > 0);
+            }
+        }
+
+        return hasPlayer;
     }
 }
