@@ -38,9 +38,15 @@ public class Radio_manager : MonoBehaviour {
 		if (radio_object != null){
 			radio_object.GetComponent<Radio>().enabled = false; //radio supprimer 
 		}
-		radio_object = m_AvailableBuildings[0];
-        m_AvailableBuildings.RemoveAt(0);
-        radio_object.AddComponent<Radio>();
+        bool foundBuilding = false;
+        while ((!foundBuilding) && (m_AvailableBuildings.Count > 0)) {
+            radio_object = m_AvailableBuildings[0];
+            m_AvailableBuildings.RemoveAt(0);
+            if (!radio_object.GetComponent<Building>().IsDestroyed()) {
+                radio_object.AddComponent<Radio>();
+                foundBuilding = true;
+            }
+        }
 		//------------traitement de radio-------------------//
 
 	}

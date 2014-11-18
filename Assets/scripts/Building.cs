@@ -12,6 +12,7 @@ public class Building : MonoBehaviour {
     private Material m_Material;
 
     private bool m_ForceLightOn = false;
+    private bool m_IsDestroyed = false;
 
 	// Use this for initialization
 	void Start () {
@@ -82,5 +83,13 @@ public class Building : MonoBehaviour {
 
     public void ForceLightOn(bool force) {
         m_ForceLightOn = force;
+    }
+
+    public void Destroy() {
+        m_IsDestroyed = true;
+    }
+
+    public bool IsDestroyed() {
+        return m_IsDestroyed;
     }
 }
