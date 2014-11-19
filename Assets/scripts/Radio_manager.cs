@@ -6,7 +6,7 @@ public class Radio_manager : MonoBehaviour {
 
 	public int tour =0;
 	public static int radio_declencher=0;
-    public GameObject[] m_batiments;
+    private GameObject[] m_batiments;
 
     private List<GameObject> m_AvailableBuildings;
 	private GameObject radio_object=null;
@@ -23,11 +23,6 @@ public class Radio_manager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
-		if (Input.GetKey(KeyCode.F)){
-			endtour();
-		}
-		
 	}
     /**
      * ATTENTION : selectionne une nouvelle radio.
@@ -36,14 +31,17 @@ public class Radio_manager : MonoBehaviour {
 		
 		//------------traitement de radio-------------------//
 		if (radio_object != null){
-			radio_object.GetComponent<Radio>().enabled = false; //radio supprimer 
-		}
+			radio_object.GetComponent<Radio>().enabled = false; //radio supprimer
+			Destroy(radio_object.GetComponent<Radio>());
+			radio_object.GetComponent<Light>().enabled = false;
+        }
         bool foundBuilding = false;
         while ((!foundBuilding) && (m_AvailableBuildings.Count > 0)) {
             radio_object = m_AvailableBuildings[0];
             m_AvailableBuildings.RemoveAt(0);
             if (!radio_object.GetComponent<Building>().IsDestroyed()) {
                 radio_object.AddComponent<Radio>();
+                radio_object.GetComponent<Building>().contient_radio = true;
                 foundBuilding = true;
             }
         }
@@ -54,7 +52,7 @@ public class Radio_manager : MonoBehaviour {
 	void endtour() {
         if (radio_object != null) {
 		    //verfier si la tour à ete detruite ou pas 
-		    if (radio_object.GetComponent<Radio>().detruit == true) {
+		    if (radio_object.GetComponent<Building>().get_IsDestroyed() == true) {
 				    //le batiment qui contient la radio est détruit
 				    //retirer le batiment de la liste 
 				    //et affecter la radio à un nouveau batiment

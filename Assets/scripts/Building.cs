@@ -13,6 +13,8 @@ public class Building : MonoBehaviour {
 
     private bool m_ForceLightOn = false;
     private bool m_IsDestroyed = false;
+    
+    public bool contient_radio = false;
 
 	// Use this for initialization
 	void Start () {
@@ -31,47 +33,61 @@ public class Building : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-    	bool on = false;
-	    foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
-	        on = on || (kvp.Value > 0) ;
-	        if (on) {
-	            break;
-	        }
-	    }
-	    if (on) {
-	        if (m_Material != null) {
-	            m_Material.SetFloat("_ParamFloat1", 9.0f);
-	        }
-	    } else {
-	        if (m_Material != null) {
-	            m_Material.SetFloat("_ParamFloat1", 0.0f);
-	        }
-		}
-		if (m_LightComponent != null) {
-
-			if (on) print (on);
-			//m_LightComponent.enabled = on || m_ForceLightOn;
+        if (!m_IsDestroyed) {
+            bool on = false;
+            foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
+                on = on || (kvp.Value > 0) ;
+                if (on) {
+                    break;
+                }
+            }
+            if (on) {
+                if (m_Material != null) {
+                    m_Material.SetFloat("_ParamFloat1", 9.0f);
+                }
+            } else {
+                if (m_Material != null) {
+                    m_Material.SetFloat("_ParamFloat1", 0.0f);
+                }
+            }
+            if (m_LightComponent != null) {
+                if (on) print (on);
+                //m_LightComponent.enabled = on || m_ForceLightOn;
+            }
         }
 	}
 
     public void Enter(GameObject survivor) {
-		print ("Enter");
-        if (m_Survivors.ContainsKey(survivor)) {
-            m_Survivors[survivor] += 1;
-        } else {
-            m_Survivors.Add(key: survivor, value: 1);
+        if (!m_IsDestroyed) {
+            if (m_Survivors.ContainsKey(survivor)) {
+                m_Survivors[survivor] += 1;
+            } else {
+                m_Survivors.Add(key: survivor, value: 1);
+            }
         }
     }
 
 
     public void Exit(GameObject survivor) {
-        if (m_Survivors.ContainsKey(survivor)) {
-            m_Survivors[survivor] -= 1;
-            /*if (m_Survivors[survivor] < -1) {
-                m_Survivors.Remove(survivor);
-            }*/
+        if (!m_IsDestroyed) {
+            if (m_Survivors.ContainsKey(survivor)) {
+                m_Survivors[survivor] -= 1;
+                /*if (m_Survivors[survivor] < -1) {
+                    m_Survivors.Remove(survivor);
+                }*/
+            }
         }
     }
+    
+	public bool get_IsDestroyed(){
+
+		return m_IsDestroyed;
+	}
+
+	public void set_IsDestroyed(bool v){
+		
+		m_IsDestroyed = v;
+	}
 
     public bool HasPlayer() {
         bool hasPlayer = false;
@@ -88,11 +104,18 @@ public class Building : MonoBehaviour {
         m_ForceLightOn = force;
     }
 
-    public void Destroy() {
+    public void Destroyed() {
         m_IsDestroyed = true;
-    }
-
-    public bool IsDestroyed() {
-        return m_IsDestroyed;
+        gameObject.SetActive(false);
+        foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
+            if (kvp.Value > 0) {
+                if (kvp.Key.GetComponent<Survivor>() == true) {
+                    kvp.Key.GetComponent<Survivor>().Kill();
+                }
+                else if (kvp.Key.GetComponent<Bot>() == true) {
+                    kvp.Key.GetComponent<Bot>().Kill();
+                }
+            }
+        }
     }
 }

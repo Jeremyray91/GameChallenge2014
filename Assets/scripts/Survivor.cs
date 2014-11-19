@@ -18,6 +18,8 @@ public class Survivor : MonoBehaviour {
 
     private bool m_GoToNearestBuilding = false;
     private GameObject m_NearestBuilding = null;
+    
+    private bool m_GameOver;
 
 	// Use this for initialization
 	void Start () {
@@ -35,7 +37,9 @@ public class Survivor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!IsDead()) {
+        m_GameOver = GameObject.Find("GameOver").GetComponent<WinConditions>().m_GameOver;
+
+        if (!IsDead() && !m_GameOver) {
             if (!m_GoToNearestBuilding) {
                 Vector2 direction2D = new Vector2(Input.GetAxis("Horizontal" + m_ID), Input.GetAxis("Vertical" + m_ID));
                 if (direction2D.magnitude >= m_Sensi) {
@@ -97,6 +101,11 @@ public class Survivor : MonoBehaviour {
     public bool IsDead() {
         return m_IsDead;
     }
+    
+    public void Kill() {
+        m_IsDead = true;
+        gameObject.SetActive(false);
+    }
 
     public void GoToNearestBuilding() {
         if (m_Building == null) {
@@ -107,6 +116,7 @@ public class Survivor : MonoBehaviour {
                 if (!building.GetComponent<Building>().IsDestroyed()) {
                     if (nearest == null) {
                         nearest = building;
+                        nearestDistance = dist;
                     } else {
                         float dist = (gameObject.transform.position - building.transform.position).magnitude;
                         if (dist < nearestDistance) {
@@ -117,8 +127,8 @@ public class Survivor : MonoBehaviour {
                 }
             }
             m_NearestBuilding = nearest;
-            m_GoToNearestBuilding = true;
         }
+        m_GoToNearestBuilding = true;
     }
 
     public void StartNewTurn() {
