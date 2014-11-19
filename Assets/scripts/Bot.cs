@@ -114,7 +114,7 @@ public class Bot : MonoBehaviour {
             float nearestDistance = float.MaxValue;
             GameObject nearest = null;
             foreach (GameObject building in buildings) {
-                if (!building.GetComponent<Building>().IsDestroyed()) {
+                if (!building.GetComponent<Building>().get_IsDestroyed()) {
                     if (nearest == null) {
                         nearest = building;
                         nearestDistance = (gameObject.transform.position - building.transform.position).magnitude;
@@ -144,6 +144,12 @@ public class Bot : MonoBehaviour {
         m_NavMeshComponent.enabled = true;
         GenerateNewTarget();
     }
+
+    public void Kill() {
+        m_IsDead = true;
+        gameObject.SetActive(false);
+    }
+
 
     public bool IsInBuilding() {
         return m_Building != null;

@@ -215,9 +215,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &77573195
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -414,9 +411,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &147765017
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -724,6 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!54 &232287677
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1401,9 +1396,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &478179071
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1600,6 +1592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &480283298
 Light:
   m_ObjectHideFlags: 0
@@ -1839,9 +1832,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &614776605
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2038,6 +2028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &619040415
 Light:
   m_ObjectHideFlags: 0
@@ -2108,9 +2099,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &644171522
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2307,9 +2295,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &689127748
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2436,7 +2421,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tour: 0
-  m_batiments: []
 --- !u!4 &722345368
 Transform:
   m_ObjectHideFlags: 0
@@ -2673,6 +2657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &771187156
 Light:
   m_ObjectHideFlags: 0
@@ -3082,6 +3067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &861369459
 Light:
   m_ObjectHideFlags: 0
@@ -3333,6 +3319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &976247516
 Light:
   m_ObjectHideFlags: 0
@@ -3536,9 +3523,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &1004861562
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3735,6 +3719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &1125231179
 Light:
   m_ObjectHideFlags: 0
@@ -4051,6 +4036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &1268497283
 Light:
   m_ObjectHideFlags: 0
@@ -4184,6 +4170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &1312313225
 Light:
   m_ObjectHideFlags: 0
@@ -4436,6 +4423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &1345040900
 Light:
   m_ObjectHideFlags: 0
@@ -4550,6 +4538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!54 &1443893780
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5033,6 +5022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &1729102385
 Light:
   m_ObjectHideFlags: 0
@@ -5103,9 +5093,6 @@ MonoBehaviour:
   m_Speed: 18
   m_MinRandomColorChange: 5
   m_MaxRandomColorChange: 15
-  m_Building: {fileID: 0}
-  m_GoToNearestBuilding: 0
-  m_NearestBuilding: {fileID: 0}
 --- !u!195 &1791349605
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5428,6 +5415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!108 &1851586816
 Light:
   m_ObjectHideFlags: 0
@@ -5866,6 +5854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd51e2f0325154587c7e65387084a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contient_radio: 0
 --- !u!1001 &2018959731
 Prefab:
   m_ObjectHideFlags: 0

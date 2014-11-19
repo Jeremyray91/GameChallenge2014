@@ -123,7 +123,7 @@ public class Turn : MonoBehaviour
                         {
                             m_Bot[i].GetComponent<Bot>().StartNewTurn();
                         }
-					GameObject.Find("GameOver").GetComponent<Radio_manager>().endtour();
+					    GameObject.Find("GameOver").GetComponent<Radio_manager>().endtour();
 				
                         m_Turn = 0;
                         m_Timer = 0;

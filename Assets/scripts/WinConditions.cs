@@ -29,7 +29,7 @@ public class WinConditions : MonoBehaviour
                 renderer.enabled = true;
                 Time.timeScale = 0;
             }
-            m_NbRadioUsed = GetComponent<Radio_manager>().radio_declencher;
+            m_NbRadioUsed = Radio_manager.radio_declencher;
             if (m_NbRadioUsed == 3)
             {
                 m_GameOver = true;

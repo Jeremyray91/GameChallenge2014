@@ -39,7 +39,7 @@ public class Radio_manager : MonoBehaviour {
         while ((!foundBuilding) && (m_AvailableBuildings.Count > 0)) {
             radio_object = m_AvailableBuildings[0];
             m_AvailableBuildings.RemoveAt(0);
-            if (!radio_object.GetComponent<Building>().IsDestroyed()) {
+            if (!radio_object.GetComponent<Building>().get_IsDestroyed()) {
                 radio_object.AddComponent<Radio>();
                 radio_object.GetComponent<Building>().contient_radio = true;
                 foundBuilding = true;
@@ -49,7 +49,7 @@ public class Radio_manager : MonoBehaviour {
 
 	}
 
-	void endtour() {
+	public void endtour() {
         if (radio_object != null) {
 		    //verfier si la tour à ete detruite ou pas 
 		    if (radio_object.GetComponent<Building>().get_IsDestroyed() == true) {
