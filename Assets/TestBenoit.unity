@@ -436,7 +436,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 241206167}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -642,7 +642,7 @@ Transform:
   - {fileID: 232287674}
   - {fileID: 1443893777}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &370500576
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +717,7 @@ GameObject:
   - 33: {fileID: 372076394}
   - 23: {fileID: 372076392}
   - 114: {fileID: 372076390}
+  - 108: {fileID: 372076391}
   m_Layer: 8
   m_Name: BombardierTwo
   m_TagString: Untagged
@@ -738,6 +739,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Ready: 0
   m_Stop: 0
+--- !u!108 &372076391
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 372076389}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Type: 2
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2.3900001
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_Softness: 4
+    m_SoftnessFade: 1
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_ActuallyLightmapped: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 1
+  m_ShadowSamples: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_IndirectIntensity: 1
+  m_AreaSize: {x: 1, y: 1}
 --- !u!23 &372076392
 Renderer:
   m_ObjectHideFlags: 0
@@ -745,7 +781,7 @@ Renderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 372076389}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -774,7 +810,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 372076389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 11.9180002, y: 8.06949997, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 118127735}
@@ -1659,7 +1695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &861369452
 GameObject:
   m_ObjectHideFlags: 0
@@ -3003,7 +3039,7 @@ MonoBehaviour:
   m_Turn: 0
   m_Bomb: {fileID: 100002, guid: 4f0cf1992097d0141843b606fd874fa0, type: 2}
   m_TimerPlayerTurn: 5
-  m_TimerBomberTurn: 20
+  m_TimerBomberTurn: 40
 --- !u!4 &1549940769
 Transform:
   m_ObjectHideFlags: 0
@@ -3028,6 +3064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Bot: {fileID: 100000, guid: 08b1f0340b7eddf449284bf1137c29ca, type: 2}
+  m_HasStarted: 0
 --- !u!1 &1713378634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3041,6 +3078,7 @@ GameObject:
   - 124: {fileID: 1713378636}
   - 81: {fileID: 1713378635}
   - 114: {fileID: 1713378640}
+  - 114: {fileID: 1713378641}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3089,7 +3127,7 @@ Camera:
   far clip plane: 10000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 50
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3119,7 +3157,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1713378634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 237a7a10492cc4ae6a3adcc6419f4961, type: 3}
   m_Name: 
@@ -3150,6 +3188,24 @@ MonoBehaviour:
   bokehThreshholdContrast: 0
   bokehThreshholdLuminance: 0
   bokehDownsample: 1
+--- !u!114 &1713378641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1713378634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1352984e3c6465088f6cc7c4ce6e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowIntensity: 1.5
+  blurIterations: 3
+  blurSpread: .699999988
+  glowTint: {r: 1, g: 1, b: 1, a: 0}
+  compositeShader: {fileID: 4800000, guid: 96ca71e39c7b6fb4f9bec2c5bf331349, type: 3}
+  blurShader: {fileID: 4800000, guid: fb52973118cf00648825ced2fcca240c, type: 3}
+  downsampleShader: {fileID: 4800000, guid: b14b79b8936134d3f8238f0c2d40d634, type: 3}
 --- !u!1 &1729102378
 GameObject:
   m_ObjectHideFlags: 0
@@ -3730,7 +3786,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014194746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 63.5147476, y: .00245800009, z: 29.8880119}
+  m_LocalPosition: {x: -20.5610008, y: .00245800009, z: 89.2480011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3745,7 +3801,7 @@ Light:
   serializedVersion: 3
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0
   m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -3803,7 +3859,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2079163018}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
