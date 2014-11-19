@@ -5,11 +5,11 @@ public class Bomb : MonoBehaviour
 {
     #region MonoBehaviour
 
-        void OnCollisionEnter(Collision collision)
+        void OnTriggerEnter(Collider collider)
         {
-            if (collision.gameObject.tag == "Building")
+            if (collider.gameObject.tag == "Building")
             {
-                collision.gameObject.GetComponent<Building>().Destroyed();
+                Destroy(collider.gameObject);
                 Destroy(gameObject);
             }
         }

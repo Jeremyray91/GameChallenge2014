@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: mat_bouton_A
+  m_Shader: {fileID: 4800000, guid: b28af3f38baf9a842bd864b5c858d9ab, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TA
+        second:
+          m_Texture: {fileID: 2800000, guid: f4b6756f01a587a4b9e044ad7ef5526a, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TB
+        second:
+          m_Texture: {fileID: 2800000, guid: 81353280ecd299548988fe5144869911, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TY
+        second:
+          m_Texture: {fileID: 2800000, guid: a49f1e72d28ffc94c898693dda161f31, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TX
+        second:
+          m_Texture: {fileID: 2800000, guid: 6e111770c83ff8149b5b904c4753f2fd, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _A
+        second: 0
+      data:
+        first:
+          name: _B
+        second: 0
+      data:
+        first:
+          name: _Y
+        second: 0
+      data:
+        first:
+          name: _X
+        second: 0
+      data:
+        first:
+          name: _ParamFloat5
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 1, g: 1, b: 1, a: 1}

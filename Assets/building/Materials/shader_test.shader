@@ -1,16 +1,16 @@
 //#EditorFriendly
-//#node9:posx=-295:posy=152.5:title=ParamFloat:title2=ParamFloat1:input0=1:input0type=float:
-//#node8:posx=-178:posy=189.5:title=Color:input0=(0,0,0,1):input0type=Color:
-//#node7:posx=-164:posy=62.5:title=Multiply:input0=1:input0type=float:input0linkindexnode=6:input0linkindexoutput=0:input1=5:input1type=float:input1linkindexnode=9:input1linkindexoutput=0:
-//#node6:posx=-300:posy=65.5:title=Texture:title2=Texture2:input0=(0,0):input0type=Vector2:
-//#node5:posx=-276:posy=-4.5:title=Texture:title2=Texture1:input0=(0,0):input0type=Vector2:
+//#node9:posx=-579:posy=192.5:title=ParamFloat:title2=ParamFloat1:input0=1:input0type=float:
+//#node8:posx=-309:posy=383.5:title=Color:input0=(0,0,0,1):input0type=Color:
+//#node7:posx=-371:posy=82.5:title=Multiply:input0=1:input0type=float:input0linkindexnode=6:input0linkindexoutput=0:input1=5:input1type=float:input1linkindexnode=9:input1linkindexoutput=0:
+//#node6:posx=-550:posy=83.5:title=Texture:title2=Texture2:input0=(0,0):input0type=Vector2:
+//#node5:posx=-520:posy=-4.5:title=Texture:title2=Texture1:input0=(0,0):input0type=Vector2:
 //#node4:posx=0:posy=0:title=Lighting:title2=On:
 //#node3:posx=0:posy=0:title=DoubleSided:title2=Back:
 //#node2:posx=0:posy=0:title=FallbackInfo:title2=Transparent/Cutout/VertexLit:input0=1:input0type=float:
 //#node1:posx=0:posy=0:title=LODInfo:title2=LODInfo1:input0=600:input0type=float:
 //#masterNode:posx=0:posy=0:title=Master Node:input0linkindexnode=5:input0linkindexoutput=0:input1linkindexnode=7:input1linkindexoutput=0:input2linkindexnode=8:input2linkindexoutput=0:
 //#sm=3.0
-//#blending=Normal
+//#blending=Additive
 //#ShaderName
 Shader "ShaderFusion/shader_test" {
 	Properties {
@@ -25,9 +25,10 @@ _ParamFloat1 ("ParamFloat1", Float) = 1
 	Category {
 		SubShader { 
 //#Blend
-ZWrite On
+ZWrite Off
+Blend One One
 //#CatTags
-Tags { "RenderType"="Opaque" }
+Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
 Lighting On
 Cull Back
 //#LOD
@@ -35,7 +36,7 @@ LOD 600
 //#GrabPass
 		CGPROGRAM
 //#LightingModelTag
-#pragma surface surf ShaderFusion vertex:vert alphatest:_Cutoff
+#pragma surface surf ShaderFusion vertex:vert exclude_path:prepass
  //use custom lighting functions
  
  //custom surface output structure

@@ -12,15 +12,15 @@ public class Building : MonoBehaviour {
     private Material m_Material;
 
     private bool m_ForceLightOn = false;
-            bool m_IsDestroyed = false;
+    private bool m_IsDestroyed = false;
 
 	// Use this for initialization
 	void Start () {
         m_Survivors = new Dictionary<GameObject, int>();
         m_LightComponent = GetComponent<Light>();
         if (m_LightComponent != null) {
-            m_LightComponent.color = new Color(0.0f, 0.0f, 1.0f);
-            m_LightComponent.enabled = false;
+            m_LightComponent.color = new Color(1.0f, 1.0f, 1.0f);
+            //m_LightComponent.enabled = false;
         }
         m_Material = renderer.material;
         if (m_Material != null) {
@@ -31,63 +31,45 @@ public class Building : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!m_IsDestroyed)
-        {
-            if (m_LightComponent != null)
-            {
-                bool on = false;
-                foreach (KeyValuePair<GameObject, int> kvp in m_Survivors)
-                {
-                    on = on || (kvp.Value > 0);
-                    if (on)
-                    {
-                        break;
-                    }
-                }
-                if (on)
-                {
-                    if (m_Material != null)
-                    {
-                        m_Material.SetFloat("_ParamFloat1", 1.0f);
-                    }
-                }
-                else
-                {
-                    if (m_Material != null)
-                    {
-                        m_Material.SetFloat("_ParamFloat1", 0.0f);
-                    }
-                }
-                m_LightComponent.enabled = on || m_ForceLightOn;
-            }
+    	bool on = false;
+	    foreach (KeyValuePair<GameObject, int> kvp in m_Survivors) {
+	        on = on || (kvp.Value > 0) ;
+	        if (on) {
+	            break;
+	        }
+	    }
+	    if (on) {
+	        if (m_Material != null) {
+	            m_Material.SetFloat("_ParamFloat1", 9.0f);
+	        }
+	    } else {
+	        if (m_Material != null) {
+	            m_Material.SetFloat("_ParamFloat1", 0.0f);
+	        }
+		}
+		if (m_LightComponent != null) {
+
+			if (on) print (on);
+			//m_LightComponent.enabled = on || m_ForceLightOn;
         }
 	}
 
     public void Enter(GameObject survivor) {
-        if (!m_IsDestroyed)
-        {
-            if (m_Survivors.ContainsKey(survivor))
-            {
-                m_Survivors[survivor] += 1;
-            }
-            else
-            {
-                m_Survivors.Add(key: survivor, value: 1);
-            }
+		print ("Enter");
+        if (m_Survivors.ContainsKey(survivor)) {
+            m_Survivors[survivor] += 1;
+        } else {
+            m_Survivors.Add(key: survivor, value: 1);
         }
     }
 
 
     public void Exit(GameObject survivor) {
-        if (!m_IsDestroyed)
-        {
-            if (m_Survivors.ContainsKey(survivor))
-            {
-                m_Survivors[survivor] -= 1;
-                /*if (m_Survivors[survivor] < -1) {
-                    m_Survivors.Remove(survivor);
-                }*/
-            }
+        if (m_Survivors.ContainsKey(survivor)) {
+            m_Survivors[survivor] -= 1;
+            /*if (m_Survivors[survivor] < -1) {
+                m_Survivors.Remove(survivor);
+            }*/
         }
     }
 
@@ -106,23 +88,11 @@ public class Building : MonoBehaviour {
         m_ForceLightOn = force;
     }
 
-    public void Destroyed()
-    {
+    public void Destroy() {
         m_IsDestroyed = true;
-        gameObject.SetActive(false);
-        foreach (KeyValuePair<GameObject, int> kvp in m_Survivors)
-        {
-            if (kvp.Value > 0)
-            {
-                if (kvp.Key.GetComponent<Survivor>() == true)
-                {
-                    kvp.Key.GetComponent<Survivor>().Kill();
-                }
-                else if (kvp.Key.GetComponent<Bot>() == true)
-                {
-                    kvp.Key.GetComponent<Bot>().Kill();
-                }
-            }
-        }
+    }
+
+    public bool IsDestroyed() {
+        return m_IsDestroyed;
     }
 }
