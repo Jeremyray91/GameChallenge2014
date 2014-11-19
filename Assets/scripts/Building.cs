@@ -51,8 +51,7 @@ public class Building : MonoBehaviour {
                 }
             }
             if (m_LightComponent != null) {
-                if (on) print (on);
-                //m_LightComponent.enabled = on || m_ForceLightOn;
+                m_LightComponent.enabled = on || m_ForceLightOn;
             }
         }
 	}

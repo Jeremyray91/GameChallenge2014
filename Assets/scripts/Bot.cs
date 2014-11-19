@@ -130,7 +130,6 @@ public class Bot : MonoBehaviour {
             m_NearestBuilding = nearest;
             m_GoToNearestBuilding = true;
             if (m_NavMeshComponent != null) {
-                print("Stop ?");
                 m_NavMeshComponent.enabled = false;
                 GetComponent<Collider>().enabled = false;
             }

@@ -21,7 +21,6 @@ public class WinConditions : MonoBehaviour
 	    void Update () 
         {
 	        m_NbPlayer = GameObject.FindGameObjectsWithTag("Player").Length;
-            Debug.Log(m_NbPlayer);
             if (m_NbPlayer == 0)
             {
                 m_GameOver = true;

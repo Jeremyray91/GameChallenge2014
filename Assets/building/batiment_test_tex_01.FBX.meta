@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: f8d0f706c4b9f58499bb2302d7b231fd
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: coner048
+    100004: coner049
+    100006: coner050
+    100008: coner051
+    100010: fenetre_bas095
+    100012: fenetre_bas096
+    100014: fenetre_bas097
+    100016: fenetre_bas098
+    100018: fenetre_bas099
+    100020: fenetre_bas100
+    100022: fenetre_bas101
+    100024: fenetre_bas102
+    100026: fenetre_haut_milieu022
+    100028: fenetre_haut_milieu023
+    100030: porte020
+    100032: porte021
+    400000: //RootNode
+    400002: coner048
+    400004: coner049
+    400006: coner050
+    400008: coner051
+    400010: fenetre_bas095
+    400012: fenetre_bas096
+    400014: fenetre_bas097
+    400016: fenetre_bas098
+    400018: fenetre_bas099
+    400020: fenetre_bas100
+    400022: fenetre_bas101
+    400024: fenetre_bas102
+    400026: fenetre_haut_milieu022
+    400028: fenetre_haut_milieu023
+    400030: porte020
+    400032: porte021
+    2300000: coner048
+    2300002: coner049
+    2300004: coner050
+    2300006: coner051
+    2300008: fenetre_bas095
+    2300010: fenetre_bas096
+    2300012: fenetre_bas097
+    2300014: fenetre_bas098
+    2300016: fenetre_bas099
+    2300018: fenetre_bas100
+    2300020: fenetre_bas101
+    2300022: fenetre_bas102
+    2300024: fenetre_haut_milieu022
+    2300026: fenetre_haut_milieu023
+    2300028: porte020
+    2300030: porte021
+    3300000: coner048
+    3300002: coner049
+    3300004: coner050
+    3300006: coner051
+    3300008: fenetre_bas095
+    3300010: fenetre_bas096
+    3300012: fenetre_bas097
+    3300014: fenetre_bas098
+    3300016: fenetre_bas099
+    3300018: fenetre_bas100
+    3300020: fenetre_bas101
+    3300022: fenetre_bas102
+    3300024: fenetre_haut_milieu022
+    3300026: fenetre_haut_milieu023
+    3300028: porte020
+    3300030: porte021
+    4300000: porte020
+    4300002: fenetre_bas095
+    4300004: fenetre_haut_milieu022
+    4300006: fenetre_bas096
+    4300008: coner048
+    4300010: fenetre_bas097
+    4300012: coner049
+    4300014: fenetre_haut_milieu023
+    4300016: fenetre_bas098
+    4300018: fenetre_bas099
+    4300020: fenetre_bas100
+    4300022: fenetre_bas101
+    4300024: fenetre_bas102
+    4300026: porte021
+    4300028: coner050
+    4300030: coner051
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

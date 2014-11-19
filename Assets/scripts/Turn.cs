@@ -58,7 +58,6 @@ public class Turn : MonoBehaviour
     {
         if (m_Turn == 0)
             {
-                Debug.Log(0);
                 if (m_Timer >= m_TimerPlayerTurn)
                 {
                     if (m_Moving == false)
@@ -102,7 +101,6 @@ public class Turn : MonoBehaviour
             }
             else if (m_Turn == 1)
             {
-                Debug.Log(1);
                 if (m_Timer >= m_TimerBomberTurn || (m_Bombardier[0].GetComponent<Bombardier>().m_Ready == true && m_Bombardier[1].GetComponent<Bombardier>().m_Ready == true))
                 {
                     m_Bombardier[0].GetComponent<Bombardier>().m_Stop = true;
@@ -148,6 +146,7 @@ public class Turn : MonoBehaviour
         {
             m_Player[i].GetComponent<Survivor>().GoToNearestBuilding();
         }
+        m_Bot = GameObject.FindGameObjectsWithTag("Bot");
         for (int i = 0; i < m_Bot.Length; i++)
         {
             m_Bot[i].GetComponent<Bot>().GoToNearestBuilding();

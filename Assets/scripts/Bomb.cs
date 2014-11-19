@@ -7,9 +7,10 @@ public class Bomb : MonoBehaviour
 
         void OnTriggerEnter(Collider collider)
         {
+            print("BOMB TRIGGER");
             if (collider.gameObject.tag == "Building")
             {
-                Destroy(collider.gameObject);
+                collider.gameObject.GetComponent<Building>().Destroyed();
                 Destroy(gameObject);
             }
         }

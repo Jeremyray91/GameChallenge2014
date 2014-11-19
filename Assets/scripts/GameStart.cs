@@ -9,6 +9,8 @@ public class GameStart : MonoBehaviour
         public   GameObject m_Bot;
                         int m_CheckHide;
         public         bool m_HasStarted;
+        public float m_TimeBeforeBotSpawn;
+        public int m_BotPerPlayer;
 
     #endregion
 
@@ -18,12 +20,15 @@ public class GameStart : MonoBehaviour
         {
             m_Player = GameObject.FindGameObjectsWithTag("Player");
             m_CheckHide = 0;
-            m_HasStarted = false;
+            m_HasStarted = true;
+            GetComponent<Turn>().enabled = true;
+
+            StartCoroutine(SpawnBots());
         }
 
         void Update()
         {
-            if (m_HasStarted == false)
+            /*if (m_HasStarted == false)
             {
                 m_CheckHide = 0;
                 for (int i = 0; i < m_Player.Length; i++)
@@ -44,11 +49,22 @@ public class GameStart : MonoBehaviour
                     {
                         for (int j = 0; j < 3; j++)
                         {
-                            GameObject clone = Instantiate(m_Bot, m_Player[i].transform.position, Quaternion.identity) as GameObject;
+                            Instantiate(m_Bot, m_Player[i].transform.position, Quaternion.identity);
                         }
                     }
                     m_HasStarted = true;
                     GetComponent<Turn>().enabled = true;
+                }
+            }*/
+
+        }
+
+        IEnumerator SpawnBots() {
+            yield return new WaitForSeconds(m_TimeBeforeBotSpawn);
+
+            for (int i = 0; i < m_Player.Length; i++) {
+                for (int j = 0; j < m_BotPerPlayer; j++) {
+                    Instantiate(m_Bot, m_Player[i].transform.position, Quaternion.identity);
                 }
             }
         }

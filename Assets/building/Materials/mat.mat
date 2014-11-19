@@ -60,7 +60,7 @@ Material:
       data:
         first:
           name: _ParamFloat1
-        second: 0
+        second: 1
       data:
         first:
           name: _EmissionLM
