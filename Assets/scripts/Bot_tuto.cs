@@ -14,7 +14,7 @@ public class Bot_tuto : MonoBehaviour {
 	private int nextColor = 0;
 
 	private int etape = 0;
-	private int secconds = 1;
+	private int secconds = 2;
 	
 	private Vector3 m_TargetPosition;
 	
@@ -193,6 +193,7 @@ public class Bot_tuto : MonoBehaviour {
 
 	IEnumerator switchStates() {
 			yield return new WaitForSeconds(secconds);
+			secconds = 1;
 
 			if (etape < 2) {
 				if (etape > 0 && nextColor < 4) {
