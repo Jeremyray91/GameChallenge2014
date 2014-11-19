@@ -10,13 +10,9 @@ public class Turn : MonoBehaviour
                GameObject[] m_Player;
                GameObject[] m_Bot;
         public   GameObject m_Bomb;
-                 GameObject m_BombOne;
-                 GameObject m_BombTwo;
         public          int m_TimerPlayerTurn;
         public          int m_TimerBomberTurn;
                       float m_Timer;
-                       bool m_Firing;
-                       bool m_Mooving;
 
     #endregion
 
@@ -29,13 +25,9 @@ public class Turn : MonoBehaviour
         m_Bombardier[1] = GameObject.Find("BombardierTwo");
         m_Player = GameObject.FindGameObjectsWithTag("Player");
         m_Bot = GameObject.FindGameObjectsWithTag("Bot");
-        m_BombOne = null;
-        m_BombTwo = null;
-        m_Firing = false;
-        m_Mooving = false;
 
         m_Timer = 0;
-        
+
         if (m_Turn == 0)
         {
             m_Bombardier[0].GetComponent<Bombardier>().m_Stop = true;
@@ -57,64 +49,65 @@ public class Turn : MonoBehaviour
     void Update()
     {
         if (m_Turn == 0)
+        {
+            if (m_Timer >= m_TimerPlayerTurn)
             {
-                //Debug.Log(0);
-                if (m_Timer >= m_TimerPlayerTurn)
+                for (int i = 0; i < m_Player.Length; i++)
                 {
-                    if (m_Mooving == false)
+                    m_Player[i].GetComponent<Survivor>().GoToNearestBuilding();
+                }
+                for (int i = 0; i < m_Bot.Length; i++)
+                {
+                    m_Bot[i].GetComponent<Bot>().GoToNearestBuilding();
+                }
+
+                for (int i = 0; i < m_Player.Length; i++)
+                {
+                    if (!m_Player[i].GetComponent<Survivor>().IsInBuilding())
                     {
-                        ChangeToBombardier();
+                        break;
                     }
-
-                    for (int i = 0; i < m_Player.Length; i++)
+                    else
                     {
-                        if (!m_Player[i].GetComponent<Survivor>().IsInBuilding())
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            for (int j = 0; j < m_Bot.Length; j++)
-                            {
-                                if (!m_Bot[j].GetComponent<Bot>().IsInBuilding())
-                                {
-                                    break;
-                                }
 
-                                if (m_Bot[m_Bot.Length - 1].GetComponent<Bot>().IsInBuilding())
-                                {
-                                    m_Bombardier[0].GetComponent<Bombardier>().m_Stop = false;
-                                    m_Bombardier[1].GetComponent<Bombardier>().m_Stop = false;
-                                    m_Bombardier[0].GetComponent<Bombardier>().m_Ready = false;
-                                    m_Bombardier[1].GetComponent<Bombardier>().m_Ready = false;
-                                    m_Turn = 1;
-                                    m_Timer = 0;
-                                    m_Mooving = false;
-                                }
+                        for (int j = 0; j < m_Bot.Length; j++)
+                        {
+                            if (!m_Bot[j].GetComponent<Bot>().IsInBuilding())
+                            {
+                                break;
+                            }
+
+                            if (m_Bot[m_Bot.Length - 1].GetComponent<Bot>().IsInBuilding())
+                            {
+                                m_Bombardier[0].GetComponent<Bombardier>().m_Stop = false;
+                                m_Bombardier[1].GetComponent<Bombardier>().m_Stop = false;
+                                m_Bombardier[0].GetComponent<Bombardier>().m_Ready = false;
+                                m_Bombardier[1].GetComponent<Bombardier>().m_Ready = false;
+                                m_Turn = 1;
+                                m_Timer = 0;
                             }
                         }
                     }
                 }
-                else
-                {
-                    m_Timer += Time.deltaTime;
-                }
             }
-            else if (m_Turn == 1)
+            else
             {
-                //Debug.Log(1);
-                if (m_Timer >= m_TimerBomberTurn || (m_Bombardier[0].GetComponent<Bombardier>().m_Ready == true && m_Bombardier[1].GetComponent<Bombardier>().m_Ready == true))
+                m_Timer += Time.deltaTime;
+            }
+        }
+        else if (m_Turn == 1)
+        {
+
+            if (m_Timer >= m_TimerBomberTurn || (m_Bombardier[0].GetComponent<Bombardier>().m_Ready == true && m_Bombardier[1].GetComponent<Bombardier>().m_Ready == true))
+            {
+                m_Bombardier[0].GetComponent<Bombardier>().m_Stop = true;
+                m_Bombardier[1].GetComponent<Bombardier>().m_Stop = true;
+                if (m_Bombardier[0].GetComponent<Bombardier>().m_Ready == true && m_Bombardier[1].GetComponent<Bombardier>().m_Ready == true)
                 {
-                    m_Bombardier[0].GetComponent<Bombardier>().m_Stop = true;
-                    m_Bombardier[1].GetComponent<Bombardier>().m_Stop = true;
-
-                    if (m_Firing == false)
-                    {
-                        ChangeToPlayer();
-                    }
-
-                    if (m_BombOne == null && m_BombTwo == null)
-                    {
+                    GameObject cloneOne = Instantiate(m_Bomb, m_Bombardier[0].transform.position + new Vector3(0, 30, 0), Quaternion.identity) as GameObject;
+                    GameObject cloneTwo = Instantiate(m_Bomb, m_Bombardier[1].transform.position + new Vector3(0, 30, 0), Quaternion.identity) as GameObject;
+                    m_Turn = 0;
+                    m_Timer = 0;
                         for (int i = 0; i < m_Player.Length; i++)
                         {
                             m_Player[i].GetComponent<Survivor>().StartNewTurn();
@@ -123,46 +116,26 @@ public class Turn : MonoBehaviour
                         {
                             m_Bot[i].GetComponent<Bot>().StartNewTurn();
                         }
-                        m_Turn = 0;
-                        m_Timer = 0;
-                        m_Firing = false;
-                    }
+                    
                 }
                 else
                 {
-                    m_Timer += Time.deltaTime;
+                    for (int i = 0; i < m_Player.Length; i++)
+                    {
+                        m_Player[i].GetComponent<Survivor>().StartNewTurn();
+                    }
+                    for (int i = 0; i < m_Bot.Length; i++)
+                    {
+                        m_Bot[i].GetComponent<Bot>().StartNewTurn();
+                    }
                 }
             }
-            //Debug.Log(m_Timer);
-    }
-
-    #endregion
-
-    #region Core
-
-    void ChangeToBombardier()
-    {
-        for (int i = 0; i < m_Player.Length; i++)
-        {
-            m_Player[i].GetComponent<Survivor>().GoToNearestBuilding();
+            else
+            {
+                m_Timer += Time.deltaTime;
+            }
         }
-        for (int i = 0; i < m_Bot.Length; i++)
-        {
-            m_Bot[i].GetComponent<Bot>().GoToNearestBuilding();
-        }
-        m_Mooving = true;
-    }
-
-    void ChangeToPlayer()
-    {
-        if (m_Bombardier[0].GetComponent<Bombardier>().m_Ready == true && m_Bombardier[1].GetComponent<Bombardier>().m_Ready == true)
-        {
-            GameObject cloneOne = Instantiate(m_Bomb, m_Bombardier[0].GetComponent<BombardierOne>().GetTargetedBuilding().transform.position + new Vector3(0, 30, 0), Quaternion.identity) as GameObject;
-            GameObject cloneTwo = Instantiate(m_Bomb, m_Bombardier[1].GetComponent<BombardierTwo>().GetTargetedBuilding().transform.position + new Vector3(0, 30, 0), Quaternion.identity) as GameObject;
-            m_BombOne = cloneOne.gameObject;
-            m_BombTwo = cloneTwo.gameObject;
-            m_Firing = true;
-        }
+        //Debug.Log(m_Timer);
     }
 
     #endregion
